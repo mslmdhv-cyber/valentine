@@ -39,16 +39,33 @@
     color: #444;
   }
 
-  .btn {
+  .btn-row {
     margin-top: 24px;
+    position: relative;
+    height: 70px;
+  }
+
+  .btn {
     padding: 14px 22px;
     border-radius: 28px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-block;
+  }
+
+  .yes {
     background: #ff5c8a;
     color: white;
-    font-weight: 600;
-    display: inline-block;
-    cursor: pointer;
     animation: pulse 1.6s infinite;
+  }
+
+  .no {
+    background: #eee;
+    color: #555;
+    position: absolute;
+    left: 180px;
+    top: 0;
+    transition: all 0.2s ease;
   }
 
   .hidden {
@@ -89,16 +106,18 @@
   <!-- FIRST SCREEN -->
   <div id="question">
     <h2>Will you be my Valentine? 💘</h2>
-    <div class="btn" onclick="sayYes()">YES 💖</div>
+
+    <div class="btn-row">
+      <div class="btn yes" onclick="sayYes()">YES 💖</div>
+      <div class="btn no" id="noBtn">NO 😏</div>
+    </div>
   </div>
 
   <!-- SECOND SCREEN -->
   <div id="result" class="hidden">
     <h2>Yes detected 💖</h2>
 
-    <p>
-      Squared with your Poco for the 4th year ✨
-    </p>
+    <p>Squared with your Poco for the 4th year ✨</p>
 
     <p>
       This Valentine’s Day comes with a promise —<br>
@@ -120,11 +139,21 @@
 </audio>
 
 <script>
+  const noBtn = document.getElementById("noBtn");
+
+  noBtn.addEventListener("mouseenter", moveNo);
+  noBtn.addEventListener("click", moveNo);
+
+  function moveNo() {
+    const x = Math.random() * 200 - 100;
+    const y = Math.random() * 60 - 30;
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  }
+
   function sayYes() {
     document.getElementById("question").style.display = "none";
     document.getElementById("result").style.display = "block";
     document.getElementById("music").play();
-
     setInterval(createHeart, 400);
   }
 
@@ -135,7 +164,6 @@
     heart.style.left = Math.random() * 100 + "vw";
     heart.style.animationDuration = (4 + Math.random() * 3) + "s";
     document.body.appendChild(heart);
-
     setTimeout(() => heart.remove(), 7000);
   }
 </script>
